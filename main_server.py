@@ -1,19 +1,13 @@
-# Script by ABS
-# Personal keys included, must remove before releasing to the public
-#
-# Run the following command in your terminal for required dependencies:
-# pip install paramiko
-
+from base64 import decodebytes
+from binascii import hexlify
+import configparser
+import extrq
 import logging
+import paramiko
+import re
 import socket
 import sys
 import threading
-import paramiko
-import extrq
-from binascii import hexlify
-from base64 import decodebytes
-import configparser
-import re
 
 config = configparser.ConfigParser()
 config.read('settings.ini')

@@ -1,16 +1,9 @@
-# Script by ABS
-# Personal keys included, must remove before releasing to the public
-#
-# Run the following commands in your terminal for required dependencies:
-# pip install dropbox
-# pip install pyperclip
-
-from subprocess import check_output, CalledProcessError
-from dbxhandler import DropboxHandler
-import pyperclip
 from base64 import decodebytes
-import configparser
+from dbxhandler import DropboxHandler
 from fcmhandler import FCMHandler
+from subprocess import check_output, CalledProcessError
+import configparser
+import pyperclip
 
 config = configparser.ConfigParser()
 config.read('settings.ini')
