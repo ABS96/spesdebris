@@ -1,0 +1,10 @@
+*
+!/**/
+!*.*
+settings.ini
+*.pub
+*.ppk
+settings.json
+config.py
+__pycache__
+.vscode
