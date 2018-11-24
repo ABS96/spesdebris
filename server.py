@@ -1,8 +1,9 @@
 from base64 import decodebytes
 from binascii import hexlify
-import paramiko
-import threading
 import re
+import threading
+
+import paramiko
 
 class Server(paramiko.ServerInterface):
 
@@ -23,7 +24,11 @@ class Server(paramiko.ServerInterface):
       return paramiko.OPEN_SUCCEEDED
 
   def check_auth_publickey(self, username, key):
-    print("Auth attempt:\n- Username: {}\n- Key fingerprint: {}".format(username,hexlify(key.get_fingerprint()).decode('utf-8')))
+    print(
+      f"Auth attempt:\n"
+      f"- Username: {username}\n"
+      f"- Key fingerprint: {hexlify(key.get_fingerprint()).decode('utf-8')}"
+    )
     if (username == "ABS") and (key == self.pub_key):
       print("✔ Auth successful")
       return paramiko.AUTH_SUCCESSFUL 

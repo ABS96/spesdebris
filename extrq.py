@@ -1,9 +1,11 @@
 from base64 import decodebytes
+import configparser
+from subprocess import check_output, CalledProcessError
+
+import pyperclip
+
 from dbxhandler import DropboxHandler
 from fcmhandler import FCMHandler
-from subprocess import check_output, CalledProcessError
-import configparser
-import pyperclip
 
 class RequestProcessor():
 
@@ -35,7 +37,7 @@ class RequestProcessor():
       print("Error: the command has no arguments")
       return
     except CalledProcessError as e:
-      print("Command '{}' returned with error code {}".format(e.cmd, e.returncode))
+      print(f"Command '{e.cmd}' returned with error code {e.returncode}")
 
   def set_power(self, power_state):
     psc = {

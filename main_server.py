@@ -1,10 +1,12 @@
-from extrq import RequestProcessor
-from server import Server
 import configparser
 import logging
-import paramiko
 import socket
 import sys
+
+import paramiko
+
+from extrq import RequestProcessor
+from server import Server
 
 config = configparser.ConfigParser()
 config.read('settings.ini')
@@ -27,7 +29,7 @@ def listener():
 
 	sock.listen(100)
 	client, addr = sock.accept()
-	print("Incoming connection from",addr)
+	print(f"Incoming connection from {addr}")
 
 	t = paramiko.Transport(client)
 	t.set_gss_host(socket.getfqdn(""))
@@ -45,7 +47,7 @@ def listener():
 	t.close()
 	print("Connection closed\n")
 
-print("Starting SSH server on port", port, "\n")
+print(f"Starting SSH server on port {port}\n")
 while True:
 	try:
 		listener()
