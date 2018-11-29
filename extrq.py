@@ -92,7 +92,10 @@ class RequestProcessor():
     def get_file(self, cmdin):
         # Dropbox needs a little time to register the new file ¯\_(ツ)_/¯
         sleep(3)
-        self.dbh.download_file(remote_path=cmdin["pathFrom"])
+        self.dbh.download_file(
+            remote_path=cmdin["pathFrom"],
+            local_path=None
+        )
 
     def open_link(self, cmdin):
         webbrowser.open(url=cmdin["link"])
