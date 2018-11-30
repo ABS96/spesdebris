@@ -1,6 +1,5 @@
-import argparse
-import configparser
 from pathlib import Path
+from winreg import OpenKey, HKEY_CURRENT_USER, QueryValueEx
 
 import dropbox
 
@@ -10,8 +9,14 @@ class DropboxHandler:
     def __init__(self, apikey):
         self.dbx = dropbox.Dropbox(apikey, timeout=30)
         self.CHUNK_SIZE = 4 * 1024 * 1024
-        self.DEFAULT_LOCAL_PATH = "C:\\Downloads\\"
         self.DEFAULT_REMOTE_PATH = "/"
+        with OpenKey(
+            HKEY_CURRENT_USER,
+            'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+        ) as key:
+            self.DEFAULT_LOCAL_PATH = QueryValueEx(
+                key, '{374DE290-123F-4565-9164-39C4925E467B}'
+            )[0] + "\\"
 
     # Dropbox download
     def download_file(self, remote_path, local_path):
@@ -97,56 +102,3 @@ class DropboxHandler:
             print(f"Done{' ' * (toolbar_width)}", end="\r")
 
         return self.dbx.files_get_temporary_link(dest_path)
-
-
-def get_api_key():
-    if args.api_key:
-        return args.api_key
-    else:
-        config = configparser.ConfigParser()
-        config.read('settings.ini')
-        return config.get('APIkeys', 'Dropbox')
-    raise
-
-
-# Parse command line arguments if running standalone
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description="""
-        Dropbox handler: a wrapper for the Dropbox API
-        """
-    )
-    parser.add_argument(
-        "operation",
-        help="either 'upload' or 'download'"
-    )
-    parser.add_argument(
-        "-l",
-        "--local",
-        help="the path of the local file"
-    )
-    parser.add_argument(
-        "-r",
-        "--remote",
-        help="the path of the remote file"
-    )
-    parser.add_argument(
-        "-k",
-        "--api_key",
-        help="the API key to your Dropbox app"
-    )
-    args = parser.parse_args()
-
-    dbh = DropboxHandler(get_api_key())
-    valid_commands = {
-        "upload": dbh.upload_file,
-        "download": dbh.download_file,
-    }
-
-    if args.operation not in valid_commands:
-        print("Missing or invalid operation")
-    else:
-        valid_commands[args.operation](
-            local_path=args.local,
-            remote_path=args.remote
-        )
