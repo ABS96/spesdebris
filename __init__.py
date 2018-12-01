@@ -1,6 +1,7 @@
 import configparser
 import logging
 import socket
+import time
 from sys import exit
 
 import paramiko
@@ -37,7 +38,10 @@ def listener():
 
     sock.listen(100)
     client, addr = sock.accept()
-    print(f"Incoming connection from {addr}")
+    print(
+        f"[{time.strftime('%H:%M:%S', time.localtime(time.time()))}"
+        f"] Incoming connection from {addr}"
+    )
 
     t = paramiko.Transport(client)
     t.set_gss_host(socket.getfqdn(""))
