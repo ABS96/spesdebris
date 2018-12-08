@@ -5,7 +5,6 @@ from time import sleep
 import webbrowser
 
 import pyperclip
-from win10toast import ToastNotifier
 # from win32gui import Shell_NotifyIcon, NIM_DELETE
 
 
@@ -15,10 +14,10 @@ class RequestProcessor():
     your Android device.
     """
 
-    def __init__(self, DropboxHandler, FCMHandler):
+    def __init__(self, DropboxHandler, FCMHandler, toaster):
         self.dbh = DropboxHandler
         self.fcmh = FCMHandler
-        self.toaster = ToastNotifier()
+        self.toaster = toaster
 
     def process_external_request(self, raw_payload):
         """

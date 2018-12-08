@@ -10,21 +10,24 @@ from dbxhandler import DropboxHandler
 from fcmhandler import FCMHandler
 from extrq import RequestProcessor
 from server import Server
+from win10toast import ToastNotifier
 
 
 config = configparser.ConfigParser()
 config.read('settings.ini')
 
 port = config.getint('Server', 'Port')
+toaster = ToastNotifier()
 dbh = DropboxHandler(
-    config.get('APIkeys', 'Dropbox')
+    config.get('APIkeys', 'Dropbox'),
+    toaster
 )
 fcmh = FCMHandler(
     config.get('Client', 'Account'),
     config.get('APIkeys', 'Automate')
 )
 reqproc = RequestProcessor(
-    dbh, fcmh
+    dbh, fcmh, toaster
 )
 
 logging.basicConfig()
@@ -59,6 +62,8 @@ def listener():
     t.close()
     print("Connection closed\n")
 
+def cleanup():
+    exit(0)
 
 def daemon_mode(args):
     print(
@@ -70,7 +75,7 @@ def daemon_mode(args):
             listener()
         except KeyboardInterrupt:
             print("spesdebris daemon stopped")
-            exit(0)
+            cleanup()
         except Exception as exc:
             logger.error(exc)
 
@@ -96,6 +101,8 @@ def upload_to_phone(args):
         }
     )
 
+    cleanup()
+
 
 def send_fcm_message(args):
     fcmh.send_message(
@@ -105,3 +112,5 @@ def send_fcm_message(args):
             "message": args.message
         }
     )
+
+    cleanup()

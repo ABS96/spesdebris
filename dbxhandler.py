@@ -6,7 +6,7 @@ import dropbox
 
 class DropboxHandler:
 
-    def __init__(self, apikey):
+    def __init__(self, apikey, toaster):
         self.dbx = dropbox.Dropbox(apikey, timeout=30)
         self.CHUNK_SIZE = 4 * 1024 * 1024
         self.DEFAULT_REMOTE_PATH = "/"
@@ -17,6 +17,7 @@ class DropboxHandler:
             self.DEFAULT_LOCAL_PATH = QueryValueEx(
                 key, '{374DE290-123F-4565-9164-39C4925E467B}'
             )[0] + "\\"
+        self.toaster = toaster
 
     # Dropbox download
     def download_file(self, remote_path, local_path):
@@ -54,7 +55,6 @@ class DropboxHandler:
         dest_path = remote_path or self.DEFAULT_REMOTE_PATH + file_name
 
         read_file = open(local_path, 'rb')
-        print()
         file_size = Path(local_path).stat().st_size
         file_size_megs = "{0:.2f} KB".format(file_size/1024)
 
@@ -76,6 +76,13 @@ class DropboxHandler:
                 offset=read_file.tell()
             )
             commit = dropbox.files.CommitInfo(path=dest_path)
+
+            self.toaster.show_toast(
+                title="Sending file",
+                msg=f"{file_name} ({file_size_megs})",
+                duration=0,
+                threaded=True
+            )
 
             # Upload in chunks and show status bar
             toolbar_width = 30
@@ -100,5 +107,12 @@ class DropboxHandler:
                         end="\r"
                     )
             print(f"Done{' ' * (toolbar_width)}", end="\r")
+
+            self.toaster.show_toast(
+                title="File sent",
+                msg=f"{file_name} ({file_size_megs})",
+                duration=0,
+                threaded=True
+            )
 
         return self.dbx.files_get_temporary_link(dest_path)
