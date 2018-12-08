@@ -33,3 +33,4 @@ This is an experimental package, use at your own risk.
 1. Install spesdebris with `pip install spesdebris`
 1. Configure the package using `python -m spesdebris configure`
 1. Run spesdebris with `python -m spesdebris daemon`
+1. Optional: Open `PushToPhone.reg` to add the file upload functionality to your context menu

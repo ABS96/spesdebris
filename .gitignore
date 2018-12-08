@@ -6,7 +6,6 @@ dist
 spesdebris/settings.ini
 *.pub
 *.ppk
-*.reg
 *.egg-info
 config.py
 __pycache__

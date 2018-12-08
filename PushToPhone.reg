@@ -1,0 +1,8 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\*\shell\Push to phone]
+@="Push to phone"
+"icon"="%SystemRoot%\\System32\\shell32.dll,68"
+
+[HKEY_CLASSES_ROOT\*\shell\Push to phone\command]
+@="C:\\Python37\\pythonw.exe -m spesdebris upload \"%1\""
