@@ -17,7 +17,7 @@ if __name__ == '__main__':
         help='Upload the specified file to your Android device'
     )
     parser_upload.add_argument('source_file', type=str)
-    parser_upload.add_argument('-destination', type=str)
+    parser_upload.add_argument('--destination','-d', type=str)
     parser_upload.set_defaults(func=main.upload_to_phone)
 
     parser_daemon = subparsers.add_parser(
