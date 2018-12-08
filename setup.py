@@ -5,7 +5,7 @@ with open("readme.md", "r") as fh:
 
 setuptools.setup(
     name="spesdebris",
-    version="0.0.1",
+    version="0.0.3",
     author="Benedek Solt Antók",
     author_email="abs@abs.ezw.me",
     description="Python-based desktop automation"

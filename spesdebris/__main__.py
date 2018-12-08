@@ -1,7 +1,7 @@
 import argparse
 from sys import argv
 
-import __init__ as main
+import spesdebris.__init__ as main
 
 # Parse command line arguments if running standalone
 if __name__ == '__main__':
@@ -32,6 +32,12 @@ if __name__ == '__main__':
     )
     parser_fcm_send.add_argument('message', type=str)
     parser_fcm_send.set_defaults(func=main.send_fcm_message)
+
+    parser_configure = subparsers.add_parser(
+        "configure",
+        help="Open spesdebris configuration"
+    )
+    parser_configure.set_defaults(func=main.open_config)
 
     args = parser.parse_args()
 

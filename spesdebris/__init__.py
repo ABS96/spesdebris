@@ -1,20 +1,48 @@
 import configparser
 import logging
+import os
 import socket
 import time
-from sys import exit
+import subprocess
+import sys
+from shutil import copyfile
 
 import paramiko
 from win10toast import ToastNotifier
 
-from dbxhandler import DropboxHandler
-from fcmhandler import FCMHandler
-from extrq import RequestProcessor
-from server import Server
+from spesdebris.dbxhandler import DropboxHandler
+from spesdebris.fcmhandler import FCMHandler
+from spesdebris.extrq import RequestProcessor
+from spesdebris.server import Server
 
+
+def cleanup():
+    sys.exit(0)
+
+
+def open_config(args=None):
+    subprocess.run("notepad " + config_location)
+
+
+# Load configuration or perform first time setup
+config_location = os.getenv('LOCALAPPDATA') + '\\spesdebris\\settings.ini'
+if not os.path.isfile(config_location):
+    print("The settings file was not found, please edit it.")
+    try:
+        os.mkdir(os.path.dirname(config_location))
+    except FileExistsError:
+        pass
+    copyfile(
+        os.path.dirname(__file__) + "\\settings-sample.ini",
+        config_location
+    )
+    open_config()
+    if not os.path.isfile(config_location):
+        print("The settings file could not be created, quitting.")
+        cleanup()
 
 config = configparser.ConfigParser()
-config.read('settings.ini')
+config.read(config_location)
 
 port = config.getint('Server', 'Port')
 toaster = ToastNotifier()
@@ -63,8 +91,6 @@ def listener():
     t.close()
     print("Connection closed\n")
 
-def cleanup():
-    exit(0)
 
 def daemon_mode(args):
     print(

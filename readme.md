@@ -23,12 +23,13 @@ This is an experimental package, use at your own risk.
 ## Getting started
 
 1. Generate an asymmetric keypair, and
-   1. Save both keys to your desktop
+   1. Save both keys to your computer
    1. Save the private key on your phone
 1. Obtain your API keys
    1. [Create a Dropbox app](https://www.dropbox.com/developers/apps) and obtain an OAuth2 access token
    1. [Generate an Automate secret](https://llamalab.com/automate/cloud)
 1. Install the required flows for Automate and configure them  
    Note: these are not yet available!
-1. Customize your settings-sample.ini and rename it to settings.ini
-1. Run spesdebris with `python -m spesdebris`
+1. Install spesdebris with `pip install spesdebris`
+1. Configure the package using `python -m spesdebris configure`
+1. Run spesdebris with `python -m spesdebris daemon`
