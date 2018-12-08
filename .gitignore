@@ -1,10 +1,13 @@
 *
 !/**/
 !*.*
-settings.ini
+build
+dist
+spesdebris/settings.ini
 *.pub
 *.ppk
-settings.json
+*.reg
+*.egg-info
 config.py
 __pycache__
 .vscode

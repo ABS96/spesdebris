@@ -5,12 +5,12 @@ import time
 from sys import exit
 
 import paramiko
+from win10toast import ToastNotifier
 
 from dbxhandler import DropboxHandler
 from fcmhandler import FCMHandler
 from extrq import RequestProcessor
 from server import Server
-from win10toast import ToastNotifier
 
 
 config = configparser.ConfigParser()
@@ -52,7 +52,8 @@ def listener():
     server = Server(
         config.get('Server', 'PublicKeyFile'),
         config.get('Server', 'PrivateKeyFile'),
-        reqproc
+        reqproc,
+        config.get('Server', 'Username')
     )
     t.add_server_key(server.host_key)
     t.start_server(server=server)

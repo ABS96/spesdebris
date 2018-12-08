@@ -8,10 +8,11 @@ import paramiko
 
 class Server(paramiko.ServerInterface):
 
-    def __init__(self, pub_key_file, priv_key_file, req_proc):
+    def __init__(self, pub_key_file, priv_key_file, req_proc, username):
         self.event = threading.Event()
         self.host_key = paramiko.RSAKey(filename=priv_key_file)
         self.req_proc = req_proc
+        self.username = username
 
         f = open(pub_key_file, 'r')
         pub_key_raw = b''
