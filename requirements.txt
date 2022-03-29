@@ -1,5 +1,5 @@
 requests==2.20.1
-paramiko==2.4.2
+paramiko==2.10.1
 dropbox==9.1.0
 win10toast==0.9
 pyperclip==1.7.0
